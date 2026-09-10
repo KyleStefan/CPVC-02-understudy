@@ -5,8 +5,8 @@ unclear, ask before editing. This file briefs the agent; it does not run the pag
 
 ## My reader rule
 
-[Replace with one observable rule. Example: explain each project in ordinary
-language before showing technical terms, without inventing a missing purpose.]
+Every count of projects on the page must show both numbers: 5 listed and 12
+reported by the profile. Never present 5 as the total.
 
 ## Scope and evidence
 
