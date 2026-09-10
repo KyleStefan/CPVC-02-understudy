@@ -3,104 +3,423 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Understudy | CPVC starter</title>
+  <title>The Understudy | Storefront Readiness Check</title>
   <style>
-    :root { color-scheme: light; --paper: #f5f3ed; --ink: #172e33; --teal: #24574e; }
+    :root {
+      color-scheme: light;
+      --paper: #faf8f2;
+      --ink: #162024;
+      --muted: #5d6868;
+      --line: #d8d2c4;
+      --accent: #1f6b5e;
+      --accent-dark: #144b42;
+      --soft: #efebe1;
+    }
+
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font: 18px/1.6 Georgia, "Times New Roman", serif; }
-    main { max-width: 760px; margin: auto; padding: 48px 24px; }
-    h1, h2, button, .label { font-family: Arial, sans-serif; }
-    h1 { font-size: clamp(32px, 6vw, 52px); line-height: 1.08; letter-spacing: -.035em; margin: 20px 0; }
-    h2 { font-size: 23px; margin: 36px 0 8px; }
-    .label { color: var(--teal); font-size: 13px; letter-spacing: .06em; }
-    p { max-width: 60ch; }
-    dl { margin: 20px 0; }
-    .row { display: flex; justify-content: space-between; gap: 20px; padding: 12px 0; border-bottom: 1px solid #c3cdc5; }
-    dt { flex: 1; }
-    dd { margin: 0; font-family: Arial, sans-serif; font-variant-numeric: tabular-nums; }
-    button { min-height: 44px; padding: 10px 18px; background: var(--teal); color: white; border: 0; font-size: 16px; cursor: pointer; }
-    button:focus-visible, a:focus-visible { outline: 3px solid var(--teal); outline-offset: 4px; }
-    button:active { background: var(--ink); }
-    a { color: var(--teal); text-underline-offset: 3px; }
-    code { overflow-wrap: anywhere; font-size: .9em; }
-    .note { border-top: 2px solid var(--teal); margin-top: 32px; padding-top: 16px; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 18px/1.55 Georgia, "Times New Roman", serif;
+    }
+
+    main {
+      width: min(1080px, calc(100% - 80px));
+      margin: 0 auto;
+      padding: 48px 0 64px;
+    }
+
+    h1, h2, h3, button, .label, .fact-label, .field-name, .status, .meta {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    h1 {
+      max-width: 880px;
+      margin: 14px 0 18px;
+      font-size: 54px;
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 42px 0 10px;
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    p { max-width: 70ch; margin: 0 0 16px; }
+
+    button {
+      min-height: 46px;
+      padding: 11px 18px;
+      border: 0;
+      background: var(--accent);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover { background: var(--accent-dark); }
+    button:active { transform: translateY(1px); }
+    button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+    code {
+      font: 15px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      overflow-wrap: anywhere;
+    }
+
+    .label {
+      margin: 0;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .lede {
+      max-width: 760px;
+      font-size: 22px;
+      line-height: 1.45;
+    }
+
+    .answer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 36px;
+      align-items: start;
+      margin-top: 30px;
+      padding-top: 28px;
+      border-top: 3px solid var(--accent);
+    }
+
+    .next-action {
+      padding-left: 22px;
+      border-left: 1px solid var(--line);
+    }
+
+    .next-action p { font-size: 17px; }
+
+    .status {
+      margin: 26px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .meta span {
+      padding: 5px 9px;
+      background: var(--soft);
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px 52px;
+      margin-top: 8px;
+    }
+
+    .sections > section:first-child { grid-column: 1 / -1; }
+
+    .fact-grid {
+      display: grid;
+      grid-template-columns: 235px minmax(0, 1fr);
+      border-top: 1px solid var(--line);
+    }
+
+    .fact-row {
+      display: contents;
+    }
+
+    .field-name,
+    .field-value {
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .field-name {
+      padding-right: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .field-value {
+      font-size: 16px;
+    }
+
+    .repo-list {
+      margin-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .repo {
+      display: grid;
+      grid-template-columns: 180px repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .repo p { margin-bottom: 0; font-size: 15px; line-height: 1.35; }
+
+    .fact-label {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .plain-list {
+      margin: 16px 0 0;
+      padding-left: 20px;
+    }
+
+    .plain-list li { margin: 0 0 12px; }
+
+    .copy-note {
+      min-height: 24px;
+      margin-top: 12px;
+      color: var(--muted);
+      font: 14px/1.4 Arial, Helvetica, sans-serif;
+    }
+
+    .error {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 2px solid var(--accent);
+    }
+
     [hidden] { display: none !important; }
-    @media (max-width: 400px) { main { padding: 28px 20px; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
+
+      button:active { transform: none; }
+    }
   </style>
 </head>
 <body>
   <main>
-    <p class="label">CPVC / SESSION 02 / FICTIONAL TEACHING DATA</p>
-    <h1>What would you want<br>this reader to understand?</h1>
-    <p>Project counts are a starting point, not a story. Choose one reader and one
-      question before asking an agent to build your answer.</p>
-    <p id="status" role="status" aria-live="polite">Loading the local sample…</p>
+    <p class="label">CPVC / Session 02 / Fictional teaching data</p>
+    <h1>Do not approve live storefront access from this profile alone.</h1>
+    <p class="lede">The useful answer is narrower: this fictional profile shows retail-adjacent project signals, but it does not prove shipped ecommerce work.</p>
+
+    <p id="status" class="status" role="status" aria-live="polite">Loading profile-consumer.json...</p>
     <button id="retry" type="button" hidden>Try again</button>
-    <section id="snapshot" aria-labelledby="name" hidden>
-      <h2 id="name"></h2>
-      <p id="bio"></p>
-      <dl id="stats"></dl>
-      <p id="source"></p>
-      <p>Only listed projects are available to inspect. A README flag says a file
-        is present, not that it is good. These facts do not establish project quality.</p>
-    </section>
-    <div class="note">
-      <strong>This is the starter, not the answer.</strong>
-      <p>Write your six-line TARGET in SPEC.md. Add one reader rule to AGENTS.md.
-        Then turn these facts into something that helps that person decide.</p>
-      <a href="https://github.com/calpolyvibecoding-01/cpvc-02-understudy-template#readme">Session instructions</a>
+
+    <div id="content" hidden>
+      <section class="answer" aria-labelledby="answer-heading">
+        <div>
+          <h2 id="answer-heading">Supported Claim</h2>
+          <p id="claim"></p>
+          <div class="meta" aria-label="Project count rule">
+            <span id="count-rule"></span>
+            <span>Fixture: profile-consumer.json</span>
+            <span>Source status: fictional</span>
+          </div>
+        </div>
+        <div class="next-action">
+          <h2>Next Action</h2>
+          <p id="next-action"></p>
+          <button id="copy-question" type="button">Copy contract question</button>
+          <p id="copy-note" class="copy-note" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <div class="sections">
+        <section aria-labelledby="facts-heading">
+          <h2 id="facts-heading">Facts From The JSON</h2>
+          <p>These are the exact source fields used for the claim. Counts follow the reader rule: 5 listed and 12 reported by the profile.</p>
+          <div id="source-fields" class="fact-grid"></div>
+          <div id="repo-list" class="repo-list" aria-label="Listed repository source fields"></div>
+        </section>
+
+        <section aria-labelledby="interpretation-heading">
+          <h2 id="interpretation-heading">Interpretation</h2>
+          <p>The profile is worth a focused contract-call follow-up because its listed repositories point toward storefront, cart, product-image and brand-system work. That is evidence of topic fit, not evidence of production readiness.</p>
+        </section>
+
+        <section aria-labelledby="questions-heading">
+          <h2 id="questions-heading">Open Questions</h2>
+          <ul class="plain-list">
+            <li>Did any listed project ship to a real store with paying customers?</li>
+            <li>Can the candidate explain quality, testing, rollback and access control for a live storefront?</li>
+            <li>What work exists in the 12 reported public repos that is not visible in the 5 listed projects?</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <div id="error" class="error" hidden>
+      <h2>Profile Not Loaded</h2>
+      <p>Could not read the selected fictional fixture. Check that profile-consumer.json is present and served over HTTP, then try again.</p>
     </div>
   </main>
+
   <script>
-    // Choose ONE fixture named in SPEC.md. Keep the supplied JSON files unchanged.
-    const PROFILE = 'profile-starter.json';
+    const PROFILE = 'profile-consumer.json';
+    const CONTRACT_QUESTION = 'Before I give you live storefront access, which of these projects shipped to a real ecommerce site, what exactly did you build, and how did you handle testing, rollback and permissions?';
+
     const status = document.getElementById('status');
     const retry = document.getElementById('retry');
-    const snapshot = document.getElementById('snapshot');
+    const content = document.getElementById('content');
+    const error = document.getElementById('error');
+    const copyButton = document.getElementById('copy-question');
+    const copyNote = document.getElementById('copy-note');
+
+    function setText(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
+    function addField(parent, name, value) {
+      const row = document.createElement('div');
+      row.className = 'fact-row';
+      const term = document.createElement('div');
+      const detail = document.createElement('div');
+      term.className = 'field-name';
+      detail.className = 'field-value';
+      const code = document.createElement('code');
+      term.textContent = name;
+      code.textContent = value;
+      detail.append(code);
+      row.append(term, detail);
+      parent.append(row);
+    }
+
+    function validateProfile(data) {
+      if (!data || !data._cpvc || !data.profile || !Array.isArray(data.repos)) {
+        throw new Error('The fixture needs _cpvc, profile and repos.');
+      }
+      if (data.repos.some(repo => !repo || typeof repo.name !== 'string' || typeof repo.fork !== 'boolean')) {
+        throw new Error('Each listed repo needs a name and fork flag.');
+      }
+    }
+
+    function summarizeRepos(repos) {
+      return repos.map(repo => {
+        const parts = [
+          repo.name,
+          repo.description || 'No description supplied',
+          repo.language || 'No language supplied'
+        ];
+        if (Array.isArray(repo.topics) && repo.topics.length) {
+          parts.push('topics: ' + repo.topics.join(', '));
+        }
+        if (repo.fork) parts.push('fork: true');
+        return parts.join(' | ');
+      }).join(' ; ');
+    }
+
+    function renderProfile(data) {
+      const listedCount = data.repos.length;
+      const reportedCount = data.profile.public_repos;
+      const countText = `${listedCount} listed projects and ${reportedCount} reported by the profile`;
+      const repoSummary = summarizeRepos(data.repos);
+
+      setText('count-rule', countText);
+      setText('claim', `This fictional profile supports one cautious claim: it has visible retail-adjacent project signals across ${countText}. It does not prove shipped ecommerce work.`);
+      setText('next-action', CONTRACT_QUESTION);
+
+      const sourceFields = document.getElementById('source-fields');
+      sourceFields.replaceChildren();
+      addField(sourceFields, '_cpvc.status', data._cpvc.status);
+      addField(sourceFields, '_cpvc.note', data._cpvc.note);
+      addField(sourceFields, '_cpvc.lane', data._cpvc.lane);
+      addField(sourceFields, 'profile.bio', data.profile.bio || 'Not supplied');
+      addField(sourceFields, 'profile.public_repos', String(reportedCount));
+      addField(sourceFields, 'repos.length', `${listedCount} listed projects and ${reportedCount} reported by the profile`);
+      addField(sourceFields, 'repos[].name | description | language | topics | fork', repoSummary);
+
+      const repoList = document.getElementById('repo-list');
+      repoList.replaceChildren();
+      for (const repo of data.repos) {
+        const item = document.createElement('article');
+        item.className = 'repo';
+
+        const label = document.createElement('p');
+        label.className = 'fact-label';
+        label.textContent = repo.name;
+
+        const description = document.createElement('p');
+        description.textContent = repo.description || 'No description supplied.';
+
+        const language = document.createElement('p');
+        language.textContent = 'language: ' + (repo.language || 'Not supplied');
+
+        const topics = document.createElement('p');
+        topics.textContent = 'topics: ' + (Array.isArray(repo.topics) && repo.topics.length ? repo.topics.join(', ') : 'None supplied');
+
+        const fork = document.createElement('p');
+        fork.textContent = 'fork: ' + String(repo.fork);
+
+        item.append(label, description, language, topics, fork);
+        repoList.append(item);
+      }
+
+      status.textContent = `Loaded ${PROFILE}. This page uses ${countText}.`;
+      error.hidden = true;
+      retry.hidden = true;
+      content.hidden = false;
+    }
 
     async function loadProfile() {
-      snapshot.hidden = true;
+      content.hidden = true;
+      error.hidden = true;
       retry.hidden = true;
-      status.textContent = 'Loading the local sample…';
+      status.textContent = `Loading ${PROFILE}...`;
       try {
         const response = await fetch(PROFILE);
-        if (!response.ok) throw new Error('File could not be loaded.');
+        if (!response.ok) throw new Error('The selected fixture could not be loaded.');
         const data = await response.json();
-        if (!data.profile || !Array.isArray(data.repos) ||
-            data.repos.some(repo => !repo || typeof repo.name !== 'string' || typeof repo.has_readme !== 'boolean')) {
-          throw new Error('The sample needs a profile and a valid repos list.');
+        validateProfile(data);
+        if (!data.repos.length) {
+          throw new Error('The selected fixture has no listed projects to inspect.');
         }
-        const rows = [
-          ['Listed projects', data.repos.length],
-          ['Listed projects with a README', data.repos.filter(repo => repo.has_readme).length],
-          ['Reported public repos', data.profile.public_repos ?? 'Not supplied']
-        ];
-        document.getElementById('name').textContent = data.profile.name || data.profile.login || 'Unnamed profile';
-        document.getElementById('bio').textContent = data.profile.bio || 'No bio supplied.';
-        const stats = document.getElementById('stats');
-        stats.replaceChildren();
-        for (const [label, value] of rows) {
-          const row = document.createElement('div');
-          row.className = 'row';
-          const term = document.createElement('dt');
-          const detail = document.createElement('dd');
-          term.textContent = label;
-          detail.textContent = String(value);
-          row.append(term, detail);
-          stats.append(row);
-        }
-        document.getElementById('source').textContent = 'Source: ' + PROFILE + ' · repos.length, repos[].has_readme, profile.public_repos';
-        snapshot.hidden = false;
-        status.textContent = data.repos.length ? 'Local sample loaded. No recommendation has been made.' : 'No listed projects. There is nothing to compare. Choose another supplied file in PROFILE and reload.';
-      } catch (error) {
-        status.textContent = 'Could not read the sample. Check the PROFILE filename and JSON, then try again. Use GitHub Pages or a local web server, not a double-clicked file.';
+        renderProfile(data);
+      } catch (loadError) {
+        status.textContent = 'The selected fictional fixture is not available yet.';
+        error.hidden = false;
         retry.hidden = false;
       }
     }
+
+    async function copyContractQuestion() {
+      copyNote.textContent = '';
+      try {
+        await navigator.clipboard.writeText(CONTRACT_QUESTION);
+        copyNote.textContent = 'Copied.';
+      } catch (copyError) {
+        copyNote.textContent = CONTRACT_QUESTION;
+      }
+    }
+
     retry.addEventListener('click', loadProfile);
+    copyButton.addEventListener('click', copyContractQuestion);
     loadProfile();
-    // Open-build test: use a nonexistent filename, inspect the message, then
-    // RESTORE PROFILE and reload successfully before reviewing and merging.
   </script>
 </body>
 </html>
